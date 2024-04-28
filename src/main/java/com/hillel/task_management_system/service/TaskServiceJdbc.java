@@ -10,7 +10,6 @@ import com.hillel.task_management_system.exceptions.TaskSqlException;
 import com.hillel.task_management_system.exceptions.UserNullException;
 import com.hillel.task_management_system.exceptions.UserSqlException;
 import com.hillel.task_management_system.model.Task;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +20,19 @@ import java.util.List;
 @ConditionalOnProperty(prefix = "app.connection", name = "type", havingValue = "jdbc")
 public class TaskServiceJdbc implements TaskService{
 
-    @Autowired
-    private UserDao userDao;
+    private final TaskDao taskDao;
+    private final UserDao userDao;
 
-    @Autowired
-    private TaskDao taskDao;
+    public TaskServiceJdbc(TaskDao taskDao, UserDao userDao) {
+        this.taskDao = taskDao;
+        this.userDao = userDao;
+    }
+
+//    @Autowired
+//    private UserDao userDao;
+//
+//    @Autowired
+//    private TaskDao taskDao;
 
 
     public void addTaskToDatabase(Task task) throws SQLException {

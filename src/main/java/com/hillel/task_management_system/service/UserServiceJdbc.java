@@ -16,11 +16,17 @@ import java.util.List;
 @ConditionalOnProperty(prefix = "app.connection", name = "type", havingValue = "jdbc")
 public class UserServiceJdbc implements UserService{
 
-    @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
 
-    @Autowired
-    private UserDaoJpa userDaoJpa;
+    public UserServiceJdbc(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+//    @Autowired
+//    private UserDao userDao;
+//
+//    @Autowired
+//    private UserDaoJpa userDaoJpa;
 
     public String addUser(User user) throws SQLException {
         if (user == null) {

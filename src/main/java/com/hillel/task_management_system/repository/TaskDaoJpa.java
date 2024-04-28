@@ -1,6 +1,8 @@
 package com.hillel.task_management_system.repository;
 
 import com.hillel.task_management_system.model.Task;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +26,7 @@ public interface TaskDaoJpa extends JpaRepository<Task, Integer> {
                            @Param("priority") String priority,
                            @Param("status") String status);
 
+    @Override
     List<Task> findAll();
 
     @Modifying
@@ -49,5 +52,14 @@ public interface TaskDaoJpa extends JpaRepository<Task, Integer> {
     @Modifying
     @Transactional
     void removeTaskByTaskId(int taskId);
+
+
+    // Service method
+    @Query("SELECT COUNT(t) > 0 FROM Task t WHERE t.taskId = :taskId")
+    boolean taskExists(int taskId);
+
+    // Service method
+    @Query("SELECT COUNT(t.userId) > 0 FROM Task t WHERE t.taskId = :taskId AND t.userId IS NOT NULL")
+    boolean taskIsAssigned(int taskId);
 
 }

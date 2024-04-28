@@ -1,26 +1,34 @@
-version: '3'
+version: '3.8'
 
 services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: postgres
+      URL: jdbc:postgresql://db:5432/postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "6432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./creating_tables.sql:/docker-entrypoint-initdb.d/creating_tables.sql
+      - ./database_filling.sql:/docker-entrypoint-initdb.d/database_filling.sql
+    networks:
+      - app-network
+
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     env_file:
       - .env
     ports:
       - "8080:8080"
     depends_on:
       - db
-    networks:
-      - app-network
-  db:
-    image: postgres:latest
-    ports:
-      - "6432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      URL: jdbc:postgresql://db:5432/postgres
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      - ./target:/target
     networks:
       - app-network
 
@@ -29,4 +37,6 @@ networks:
     driver: bridge
 
 volumes:
-  postgres_data:
+  postgres-data:
+
+#It works!!!

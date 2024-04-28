@@ -1,11 +1,9 @@
 package com.hillel.task_management_system.service;
 
-import com.hillel.task_management_system.dao.UserDao;
 import com.hillel.task_management_system.exceptions.UserNullException;
 import com.hillel.task_management_system.exceptions.UserSqlException;
 import com.hillel.task_management_system.model.User;
 import com.hillel.task_management_system.repository.UserDaoJpa;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +14,22 @@ import java.util.List;
 @ConditionalOnProperty(prefix = "app.connection", name = "type", havingValue = "jpa")
 public class UserServiceJpa implements UserService{
 
-    @Autowired
-    private UserDao userDao;
+    private final UserDaoJpa userDaoJpa;
 
-    @Autowired
-    private UserDaoJpa userDaoJpa;
+    public UserServiceJpa(UserDaoJpa userDaoJpa) {
+        this.userDaoJpa = userDaoJpa;
+    }
+
+//    @Autowired
+//    private UserDao userDao;
+//
+//    @Autowired
+//    private UserDaoJpa userDaoJpa;
 
     public String addUser(User user) throws SQLException {
         if (user == null) {
             throw new UserNullException("Error: Can't add user to DB. User is NULL.");
-        } else if (userDao.userExists(user.getId())) {
+        } else if (userDaoJpa.userExists(user.getId())) {
             throw new UserSqlException("Error: User with id = " + user.getId() + " has already existed in DataBase!");
         } else {
             userDaoJpa.addUser(user.getId(), user.getName());
@@ -35,7 +39,7 @@ public class UserServiceJpa implements UserService{
     }
 
     public User getUserById(int userId) throws SQLException {
-        if (!userDao.userExists(userId)) {
+        if (!userDaoJpa.userExists(userId)) {
             throw new UserSqlException("Error: Can't get user from DB. User with id = " + userId
                     + " doesn't exist in DB.");
         } else {
@@ -44,11 +48,11 @@ public class UserServiceJpa implements UserService{
     }
 
     public String removeUser(int userId) throws SQLException {
-        if (!userDao.userExists(userId)) {
+        if (!userDaoJpa.userExists(userId)) {
             throw new UserSqlException("Error: Can't remove user from DB. User with id = " + userId
                     + " doesn't exist in DB.");
         }
-        else if (userDao.getUserById(userId) == null) {
+        else if (userDaoJpa.findUserById(userId) == null) {
             throw new UserNullException("Error: Can't remove user from DB. User is NULL.");
         }
         else {
@@ -58,7 +62,7 @@ public class UserServiceJpa implements UserService{
     }
 
     public List<User> getAllUsers() throws SQLException {
-        if (userDao.getUsers() == null) {
+        if (userDaoJpa.findAll() == null) {
             throw new UserNullException("Error: Can't get user from DB. List of users is NULL.");
         } else {
 

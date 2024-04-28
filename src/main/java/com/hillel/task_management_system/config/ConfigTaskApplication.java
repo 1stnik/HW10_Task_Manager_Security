@@ -2,6 +2,8 @@ package com.hillel.task_management_system.config;
 
 import com.hillel.task_management_system.dao.TaskDao;
 import com.hillel.task_management_system.dao.UserDao;
+import com.hillel.task_management_system.repository.TaskDaoJpa;
+import com.hillel.task_management_system.repository.UserDaoJpa;
 import com.hillel.task_management_system.service.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -13,42 +15,30 @@ import javax.sql.DataSource;
 @Configuration
 public class ConfigTaskApplication {
 
-
     @Bean
     @ConditionalOnProperty(prefix = "app.connection", name = "type", havingValue = "jdbc")
-    public TaskServiceJdbc taskService() {
-        return new TaskServiceJdbc();
+    public TaskServiceJdbc taskServiceJdbc(TaskDao taskDao, UserDao userDao) {
+        return new TaskServiceJdbc(taskDao, userDao);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "app.connection", name = "type", havingValue = "jdbc")
-    public UserServiceJdbc userService() {
-        return new UserServiceJdbc();
-    }
-
-
-    @Bean
-    @ConditionalOnProperty(prefix = "app.connection", name = "type", havingValue = "jpa")
-    public TaskServiceJpa taskServiceJpa() {
-        return new TaskServiceJpa();
+    public UserServiceJdbc userServiceJdbc(UserDao userDao) {
+        return new UserServiceJdbc(userDao);
     }
 
     @Bean
     @ConditionalOnProperty(prefix = "app.connection", name = "type", havingValue = "jpa")
-    public UserServiceJpa userServiceJpa() {
-        return new UserServiceJpa();
-    }
-
-
-    @Bean
-    public TaskDao taskDao() {
-        return new TaskDao();
+    public TaskServiceJpa taskServiceJpa(TaskDaoJpa taskDaoJpa, UserDaoJpa userDaoJpa) {
+        return new TaskServiceJpa(taskDaoJpa, userDaoJpa);
     }
 
     @Bean
-    public UserDao userDao() {
-        return new UserDao();
+    @ConditionalOnProperty(prefix = "app.connection", name = "type", havingValue = "jpa")
+    public UserServiceJpa userServiceJpa(UserDaoJpa userDaoJpa) {
+        return new UserServiceJpa(userDaoJpa);
     }
+
 
     @Bean
     public ConnectionConfig connectionConfig() {
@@ -64,5 +54,4 @@ public class ConfigTaskApplication {
         dataSource.setPassword("08080808");
         return dataSource;
     }
-
 }
