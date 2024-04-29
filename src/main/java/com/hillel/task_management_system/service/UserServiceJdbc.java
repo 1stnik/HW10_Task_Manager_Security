@@ -22,11 +22,6 @@ public class UserServiceJdbc implements UserService{
         this.userDao = userDao;
     }
 
-//    @Autowired
-//    private UserDao userDao;
-//
-//    @Autowired
-//    private UserDaoJpa userDaoJpa;
 
     public String addUser(User user) throws SQLException {
         if (user == null) {

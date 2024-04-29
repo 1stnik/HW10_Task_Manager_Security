@@ -1,8 +1,6 @@
 package com.hillel.task_management_system.repository;
 
 import com.hillel.task_management_system.model.Task;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

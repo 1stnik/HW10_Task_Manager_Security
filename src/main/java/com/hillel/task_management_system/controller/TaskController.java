@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 public class TaskController {
 
-
     private final TaskService taskService;
 
     @Autowired
@@ -65,5 +64,4 @@ public class TaskController {
     public List<Task> findTaskByDeadline(@PathVariable String deadline) throws SQLException {
         return taskService.findTaskByDeadline(deadline);
     }
-
 }

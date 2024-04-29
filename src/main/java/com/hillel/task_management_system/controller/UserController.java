@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 public class UserController {
 
-
     private final UserService userService;
 
     @Autowired
@@ -39,5 +38,4 @@ public class UserController {
     public List<User> getAllUsers() throws SQLException {
         return userService.getAllUsers();
     }
-
 }

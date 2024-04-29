@@ -1,7 +1,10 @@
 package com.hillel.task_management_system.config;
 
+import com.hillel.task_management_system.dao.AuthDao;
 import com.hillel.task_management_system.dao.TaskDao;
 import com.hillel.task_management_system.dao.UserDao;
+import com.hillel.task_management_system.model.Auth;
+import com.hillel.task_management_system.repository.AuthDaoJpa;
 import com.hillel.task_management_system.repository.TaskDaoJpa;
 import com.hillel.task_management_system.repository.UserDaoJpa;
 import com.hillel.task_management_system.service.*;
@@ -14,6 +17,18 @@ import javax.sql.DataSource;
 
 @Configuration
 public class ConfigTaskApplication {
+
+    @Bean
+    @ConditionalOnProperty(prefix = "app.connection", name = "type", havingValue = "jdbc")
+    public AuthServiceJdbc authServiceJdbc(AuthDao authDao) {
+        return new AuthServiceJdbc(authDao);
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "app.connection", name = "type", havingValue = "jpa")
+    public AuthServiceJpa authServiceJpa(AuthDaoJpa authDaoJpa) {
+        return new AuthServiceJpa(authDaoJpa);
+    }
 
     @Bean
     @ConditionalOnProperty(prefix = "app.connection", name = "type", havingValue = "jdbc")
@@ -39,6 +54,12 @@ public class ConfigTaskApplication {
         return new UserServiceJpa(userDaoJpa);
     }
 
+    @Bean
+    public Auth auth() {
+        return new Auth();
+    }
+
+    // Connections
 
     @Bean
     public ConnectionConfig connectionConfig() {
@@ -46,7 +67,7 @@ public class ConfigTaskApplication {
     }
 
     @Bean
-    public DataSource dbDataSource(){
+    public DataSource dbDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");

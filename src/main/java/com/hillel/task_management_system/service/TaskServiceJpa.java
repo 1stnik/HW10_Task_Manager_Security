@@ -30,15 +30,6 @@ public class TaskServiceJpa implements TaskService{
         this.userDaoJpa = userDaoJpa;
     }
 
-//    @Autowired
-//    private UserDao userDao;
-//
-//    @Autowired
-//    private TaskDao taskDao;
-//
-//    @Autowired
-//    private TaskDaoJpa taskDaoJpa;
-
 
     public void addTaskToDatabase(Task task) throws SQLException {
         if (task == null) {

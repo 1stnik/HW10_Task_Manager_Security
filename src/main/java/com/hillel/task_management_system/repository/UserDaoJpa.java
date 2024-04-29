@@ -27,6 +27,8 @@ public interface UserDaoJpa extends JpaRepository<User, Integer> {
     @Override
     List<User> findAll();
 
+    // Service method
     @Query("SELECT COUNT(u) > 0 FROM User u WHERE u.id = :userId")
     boolean userExists(int userId);
+
 }

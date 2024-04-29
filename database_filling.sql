@@ -21,3 +21,8 @@ VALUES (1001, 'Task 1', 'Task one description', '2024-06-01', 'MEDIUM', 'NEW', 1
        (1011, 'Task 11', 'Task eleven description', '2024-06-11', 'LOW', 'NEW', null),
        (1012, 'Task 12', 'Task twelve description', '2024-06-12', 'HIGH', 'NEW', null),
        (1013, 'Task 13', 'Task thirteen description', '2024-06-13', 'LOW', 'NEW', null);
+
+INSERT INTO auths (id, login, password)
+VALUES (1, 'user123', '123'),
+       (2, 'user456', '456'),
+       (3, 'user789', '789');

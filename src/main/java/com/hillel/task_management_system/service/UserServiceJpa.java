@@ -20,11 +20,6 @@ public class UserServiceJpa implements UserService{
         this.userDaoJpa = userDaoJpa;
     }
 
-//    @Autowired
-//    private UserDao userDao;
-//
-//    @Autowired
-//    private UserDaoJpa userDaoJpa;
 
     public String addUser(User user) throws SQLException {
         if (user == null) {
@@ -61,7 +56,7 @@ public class UserServiceJpa implements UserService{
         }
     }
 
-    public List<User> getAllUsers() throws SQLException {
+    public List<User> getAllUsers() {
         if (userDaoJpa.findAll() == null) {
             throw new UserNullException("Error: Can't get user from DB. List of users is NULL.");
         } else {

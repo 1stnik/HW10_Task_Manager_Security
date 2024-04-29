@@ -5,11 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hillel.task_management_system.enums.Priority;
 import com.hillel.task_management_system.enums.Status;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+import java.util.Objects;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "tasks")
@@ -77,5 +80,17 @@ public class Task {
                 ", priority=" + priority +
                 ", status=" + status +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task task)) return false;
+        return Objects.equals(taskId, task.taskId) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(deadline, task.deadline) && priority == task.priority && status == task.status && Objects.equals(userId, task.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(taskId, title, description, deadline, priority, status, userId);
     }
 }

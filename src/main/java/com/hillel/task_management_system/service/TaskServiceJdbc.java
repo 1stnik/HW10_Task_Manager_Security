@@ -28,12 +28,6 @@ public class TaskServiceJdbc implements TaskService{
         this.userDao = userDao;
     }
 
-//    @Autowired
-//    private UserDao userDao;
-//
-//    @Autowired
-//    private TaskDao taskDao;
-
 
     public void addTaskToDatabase(Task task) throws SQLException {
         if (task == null) {
