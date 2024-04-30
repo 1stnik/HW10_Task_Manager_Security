@@ -8,6 +8,8 @@ import com.hillel.task_management_system.repository.AuthDaoJpa;
 import com.hillel.task_management_system.repository.TaskDaoJpa;
 import com.hillel.task_management_system.repository.UserDaoJpa;
 import com.hillel.task_management_system.service.*;
+import com.hillel.task_management_system.service_auth.AuthServiceJdbc;
+import com.hillel.task_management_system.service_auth.AuthServiceJpa;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

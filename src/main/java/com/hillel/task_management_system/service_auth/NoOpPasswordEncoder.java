@@ -1,4 +1,4 @@
-package com.hillel.task_management_system.service;
+package com.hillel.task_management_system.service_auth;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 

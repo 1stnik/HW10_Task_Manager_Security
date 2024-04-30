@@ -1,4 +1,4 @@
-package com.hillel.task_management_system.service;
+package com.hillel.task_management_system.service_auth;
 
 import com.hillel.task_management_system.model.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
